@@ -7,6 +7,10 @@ body {
   padding-top: 50px;
 }
 
+.editor{
+    opacity: 0;
+}
+
 #wdgt-add, #wdgt-edit, #wdgt-sort{
   position: fixed;
   width: 370px;

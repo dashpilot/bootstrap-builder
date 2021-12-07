@@ -24,8 +24,6 @@
 
 <body spellcheck="false">
 
-
-
   <div id="app" x-init="fetchItems()" x-data="app()">
 
     <nav>
@@ -39,7 +37,6 @@
 
         </div>
         <div class="col-md-6 g-0 text-end">
-
 
           <button class="btn btn-outline-light download-btn" @click="download">Download</button>
 
@@ -106,7 +103,6 @@
             </section>
           </template>
 
-
           <template x-if="item.layout == 'features'" id="features" data-fields="title=txt&amp;body=rte&amp;title2=txt&amp;body2=rte">
             <section :id="item.id" class="editable" :class="{ 'even': index % 2 === 1, 'odd':  index % 2 == 0 }" @click="setCur(item)">
               <div class="container">
@@ -131,7 +127,7 @@
     </div>
 
 
-    <div id="wdgt-add" x-show="addItem" x-transition.opacity>
+    <div id="wdgt-add" class="editor" x-show="addItem" x-transition.opacity>
 
       <div class="wdgt-header">
         <button type="button" class="btn-close fl-right" @click="addItem=false"></button>
@@ -147,7 +143,7 @@
     </div>
 
 
-    <div id="wdgt-sort" x-show="sortItems" x-transition.opacity>
+    <div id="wdgt-sort" class="editor" x-show="sortItems" x-transition.opacity>
 
       <div class="wdgt-header">
         <button type="button" class="btn-close fl-right" @click="sortItems=false"></button>
@@ -166,7 +162,7 @@
 
 
 
-    <div id="wdgt-edit" x-show="curItem" x-transition.opacity x-transition:leave.duration.0ms>
+    <div id="wdgt-edit" class="editor" x-show="curItem" x-transition.opacity x-transition:leave.duration.0ms>
 
       <div class="wdgt-header">
         <button type="button" class="btn-close fl-right" @click="curItem=false"></button>
@@ -177,10 +173,7 @@
 
         <input type="file" id="fileInput" class="fileInput" accept="image/png, image/jpeg, image/gif" style="display: none;">
 
-
-
         <template x-for="[key, type] in Object.entries(curFields)">
-
 
           <template x-if="key !== 'id' && key !== 'layout'">
             <div>
@@ -197,13 +190,12 @@
                 <button class="btn btn-outline-dark" @click="choose">Image</button>
               </template>
 
-
             </div>
           </template>
 
         </template>
-        <button class="btn btn-primary save-btn" @click="save">Save</button>
 
+        <button class="btn btn-primary save-btn" @click="save">Save</button>
         <button class="btn btn-danger fl-right" @click="remove(curItem.id)">Delete</button>
 
       </div>
@@ -432,6 +424,10 @@
         document.body.removeChild(elem);
       }
     }
+
+    document.querySelectorAll('.editor').forEach(function(e) {
+      e.style.opacity = '1';
+    })
   </script>
 
 
