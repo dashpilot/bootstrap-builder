@@ -1,0 +1,156 @@
+html,
+body {
+  height: 100%;
+}
+
+#main{
+  padding-top: 50px;
+}
+
+#wdgt-add, #wdgt-edit, #wdgt-sort{
+  position: fixed;
+  width: 370px;
+  background-color: #F8F8F8;
+  height: 100%;
+  overflow-y: auto;
+}
+
+#wdgt-add, #wdgt-sort{
+  top: 0;
+  left: 0;
+  border-right: 1px solid #DDD;
+}
+
+#wdgt-edit{
+  top: 0;
+  right: 0;
+  border-left: 1px solid #DDD;
+}
+
+#wdgt-add img{
+  width: 100%;
+  border: 1px solid #DDD;
+  margin-bottom: 10px;
+}
+
+#wdgt-edit .form-control,
+#wdgt-edit .btn {
+  margin-bottom: 15px;
+}
+
+#wdgt-edit textarea {
+  resize: none;
+  height: 150px;
+}
+
+.wdgt-header{
+  border-bottom: 1px solid #DDD;
+  padding: 20px;
+  padding-top: 15px;
+  height: 55px;
+  background-color: white;
+}
+
+.wdgt-header h5{
+    font-size: 16px;
+    padding-top: 3px;
+}
+
+.wdgt-body{
+  padding: 20px;
+}
+
+nav {
+  padding: 15px;
+  background-color: #343a40;
+  padding-left: 32px;
+    padding-right: 32px;
+  color: white;
+  position: fixed;
+  width: 100%;
+  height: 54px;
+}
+nav h1,
+nav h2 {
+  color: white;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+nav h2 {
+  padding-left: 10px;
+}
+
+nav a{
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+nav a:hover{
+  color: #DDD !important;
+  text-decoration: underline;
+}
+
+
+#cfg {
+  padding: 30px;
+  border-left: 1px solid #DDD;
+  border-right: 1px solid #DDD;
+  background-color: #F8F8F8;
+}
+
+#divider {
+  height: 100%;
+}
+
+#app {
+  height: calc(100% - 50px);
+}
+
+.fl-left{
+  float: left;
+}
+
+.fl-right{
+  float: right;
+}
+
+.editable{
+  border: 1px solid transparent;
+}
+
+.editable:hover{
+  border: 1px dashed black;
+}
+
+
+.edit{
+  display: none;
+}
+
+.handle{
+  margin-right: 10px;
+  cursor: move;
+}
+
+.item-id{
+   display: none;
+}
+
+.save-btn{
+  width: 75px;
+}
+
+@media only screen and (max-width: 767px) {
+  nav h2 {
+    display: none;
+  }
+
+  #settings {
+    border-bottom: 1px solid #DDD;
+  }
+}

@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Bootstrap Builder</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;600&family=Lobster&family=Playfair+Display&family=Raleway&family=Cutive+Mono&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/editor.css">
+  <link rel="stylesheet" href="assets/style.css">
+
+  <script src="https://unpkg.com/alpinejs" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+</head>
+
+<body spellcheck="false">
+
+
+
+  <div id="app" x-init="fetchItems()" x-data="app()">
+
+    <nav>
+      <div class="row">
+        <div class="col-md-4 g-0">
+          <a @click="addItem=true">Add Content</a>
+
+          <a @click="enableSortable">Arrange Content</a>
+
+        </div>
+        <div class="col-md-8 g-0">
+
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+
+      <template x-for="item in items">
+
+        <div>
+          <template x-if="item.layout == 'header'" id="header" data-fields="icon=icon&amp;title=txt&amp;subtitle=txt&amp;button=txt&amp;link=txt">
+            <section :id="item.id" class="editable text-center" @click="setCur(item)">
+              <div class="container">
+                <i class="fas fa-bolt fa-big"></i>
+                <h1 x-text="item.title">Bootstrap Builder</h1>
+                <p x-text="item.subtitle">Lorem ipsum dolor site amet.</p>
+                <a href="#" class="btn btn-outline-dark" x-text="item.button">Contact Us</a>
+              </div>
+            </section>
+          </template>
+
+          <template x-if="item.layout == 'post'" id="post" data-fields="title=txt&amp;body=rte">
+            <section :id="item.id" class="editable" @click="setCur(item)">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8">
+                    <h2 x-text="item.title">Mauris eleifend ligula</h2>
+                    <p x-text="item.body"> Vivamus in nisi commodo, auctor magna vel, viverra turpis. Quisque dapibus risus nec justo euismod, id fringilla dui lobortis. Mauris vitae semper arcu. Ut ac lorem felis.</p>
+                  </div>
+                  <div class="col-md-2"></div>
+                </div>
+              </div>
+            </section>
+          </template>
+
+          <template x-if="item.layout == 'news'" id="news" data-fields="title=txt&amp;body=rte&amp;image=img&amp;youtube_url=vid">
+            <section :id="item.id" class="editable" @click="setCur(item)">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h2 x-text="item.title">Maecenas tincidunt sem quis rutrum</h2>
+                    <p x-text="item.body">Mauris in porttitor elit. Aenean elementum eleifend quam, in tristique eros auctor porta. Donec et est in tellus blandit feugiat id nec nunc.</p>
+                  </div>
+                  <div class="col-md-6"><img :src="item.image" class="img-fluid"></div>
+                </div>
+              </div>
+            </section>
+          </template>
+
+          <template x-if="item.layout == 'newsleft'" id="newsleft" data-fields="title=txt&amp;body=rte&amp;image=img&amp;youtube_url=vid">
+            <section :id="item.id" class="editable" @click="setCur(item)">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-6"><img :src="item.image" class="img-fluid"></div>
+                  <div class="col-md-6">
+                    <h2 x-text="item.title">Maecenas tincidunt sem quis rutrum</h2>
+                    <p x-text="item.body">Mauris in porttitor elit. Aenean elementum eleifend quam, in tristique eros auctor porta. Donec et est in tellus blandit feugiat id nec nunc.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </template>
+
+
+          <template x-if="item.layout == 'features'" id="features" data-fields="title=txt&amp;body=rte&amp;title2=txt&amp;body2=rte">
+            <section :id="item.id" class="editable" @click="setCur(item)">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-6 text-center">
+                    <h3 x-text="item.title">Lorem Ipsum</h3>
+                    <p x-text="item.body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eleifend ligula ut augue scelerisque venenatis.</p>
+                  </div>
+                  <div class="col-md-6 text-center">
+                    <h3 x-text="item.title2">Lorem Ipsum</h3>
+                    <p x-text="item.body2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eleifend ligula ut augue scelerisque venenatis.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </template>
+
+        </div>
+
+      </template>
+
+    </div>
+
+
+    <div id="wdgt-add" x-show="addItem" x-transition.opacity>
+
+      <div class="wdgt-header">
+        <button type="button" class="btn-close fl-right" @click="addItem=false"></button>
+        <h5>Add Content</h5>
+      </div>
+
+      <div class="wdgt-body">
+        <template x-for="block in blocks">
+          <img :src="'assets/preview/'+block+'.png'" @click="add(block)" />
+        </template>
+      </div>
+
+    </div>
+
+
+    <div id="wdgt-sort" x-show="sortItems" x-transition.opacity>
+
+      <div class="wdgt-header">
+        <button type="button" class="btn-close fl-right" @click="sortItems=false"></button>
+        <h5>Arrange Content</h5>
+      </div>
+
+      <div class="wdgt-body">
+
+        <ul id="sortable" class="list-group">
+        </ul>
+
+      </div>
+
+    </div>
+
+
+
+
+    <div id="wdgt-edit" x-show="curItem" x-transition.opacity x-transition:leave.duration.0ms>
+
+      <div class="wdgt-header">
+        <button type="button" class="btn-close fl-right" @click="curItem=false"></button>
+        <h5>Edit <span x-text="curItem.layout"></span></h5>
+      </div>
+
+      <div class="wdgt-body">
+
+        <input type="file" id="fileInput" class="fileInput" accept="image/png, image/jpeg, image/gif" style="display: none;">
+
+
+
+        <template x-for="[key, type] in Object.entries(curFields)">
+
+
+          <template x-if="key !== 'id' && key !== 'layout'">
+            <div>
+
+              <template x-if="type == 'txt'">
+                <input type="text" class="form-control" x-model="curItem[key]">
+              </template>
+
+              <template x-if="type == 'rte'">
+                <textarea class="form-control" x-model="curItem[key]"></textarea>
+              </template>
+
+              <template x-if="type == 'img'">
+                <button class="btn btn-outline-dark" @click="choose">Image</button>
+              </template>
+
+
+            </div>
+          </template>
+
+        </template>
+        <button class="btn btn-primary save-btn" @click="save">Save</button>
+
+        <button class="btn btn-danger fl-right" @click="remove(curItem.id)">Delete</button>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+  <script>
+    function app() {
+      return {
+        items: [],
+        curItem: false,
+        sortItems: false,
+        curFields: false,
+        addItem: false,
+        blocks: ['header', 'post', 'news', 'newsleft', 'features'],
+        fetchItems() {
+
+          fetch('data/data.json')
+            .then(res => res.json())
+            .then(data => {
+              this.items = data;
+
+            });
+        },
+        setCur(item) {
+
+          this.curItem = item;
+
+          let myfields = document.getElementById(item.layout).getAttribute('data-fields');
+          var params = new URLSearchParams(myfields);
+          this.curFields = Object.fromEntries(params.entries())
+
+          this.addItem = false;
+          scrollTo(item.id);
+        },
+        enableSortable() {
+          this.curItem = false;
+          this.sortItems = true;
+          var myapp = this;
+
+          // manually create the list to prevent issues with automatic binding
+          let list = '';
+          this.items.forEach(function(e) {
+            list +=
+              `<li class="list-group-item text-truncate"><i class="fas fa-grip-vertical cursor-move handle"></i> <span>${e.title}</span> <span class="item-id">${e.id}</span></li>`
+          })
+          document.querySelector('#sortable').innerHTML = list;
+
+          new Sortable(sortable, {
+            handle: '.handle',
+            animation: 150,
+            onEnd: function(evt) {
+
+
+              var order = [];
+              document.querySelectorAll('#sortable li span.item-id').forEach(function(el) {
+                console.log(el.innerText);
+                order.push(el.innerText);
+              })
+              console.log(' ');
+
+              myapp.items.sort(function(a, b) {
+                return order.indexOf(a.id) - order.indexOf(b.id)
+              });
+
+
+            }
+          });
+
+
+        },
+        remove(id) {
+          var r = confirm("Are you sure you want to delete this item?");
+          if (r == true) {
+            this.items = this.items.filter(function(obj) {
+              return obj.id !== id;
+            });
+            this.curItem = false;
+          }
+        },
+        add(layout) {
+          let myfields = document.getElementById(layout).getAttribute('data-fields');
+          let params = new URLSearchParams(myfields);
+          let fields = Object.fromEntries(params.entries())
+
+          let id = "item-" + randomInt(1, 999999999999);
+          let newItem = {
+            id: id,
+            layout: layout,
+          }
+
+          // set default values
+          for (const [key, type] of Object.entries(fields)) {
+            if (type == 'txt') {
+              newItem[key] = "Lorem ipsum";
+            } else if (type == 'rte') {
+              newItem[key] = "Lorem ipsum dolor site amet";
+            } else if (type == 'img') {
+              newItem[key] = "img/placeholder.jpg";
+            }
+
+          }
+
+          this.items.push(newItem)
+          this.addItem = false;
+
+          setTimeout(function() {
+            scrollTo(id)
+          }, 10)
+
+        },
+        save() {
+          console.log('save called');
+          console.log(JSON.stringify(this.items));
+          this.curItem = false;
+        },
+        choose() {
+
+          document.getElementById('fileInput').click();
+
+          var myapp = this; // keep reference to 'this'
+
+          document.getElementById('fileInput').addEventListener('change', function(e) {
+
+            var img_width = 500;
+
+            var img = new Image();
+            img.onload = function() {
+              var canvas = document.createElement('canvas'),
+                ctx = canvas.getContext("2d"),
+                oc = document.createElement('canvas'),
+                octx = oc.getContext('2d');
+
+              canvas.width = img_width; // destination canvas size
+              canvas.height = canvas.width * img.height / img.width;
+
+              var cur = {
+                width: Math.floor(img.width * 0.5),
+                height: Math.floor(img.height * 0.5)
+              }
+              oc.width = cur.width;
+              oc.height = cur.height;
+              octx.drawImage(img, 0, 0, cur.width, cur.height);
+              while (cur.width * 0.5 > img_width) {
+                cur = {
+                  width: Math.floor(cur.width * 0.5),
+                  height: Math.floor(cur.height * 0.5)
+                };
+                octx.drawImage(oc, 0, 0, cur.width * 2, cur.height * 2, 0, 0, cur.width, cur.height);
+              }
+              ctx.drawImage(oc, 0, 0, cur.width, cur.height, 0, 0, canvas.width, canvas.height);
+              var base64Image = canvas.toDataURL('image/jpeg')
+
+              console.log(base64Image);
+              myapp.curItem.image = base64Image;
+
+            }
+            img.src = URL.createObjectURL(e.target.files[0]);
+
+
+          });
+
+        }
+      }
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    function scrollTo(id) {
+      document.getElementById(id).scrollIntoView();
+    }
+
+    function dl(filename, data) {
+      var blob = new Blob([data], {
+        type: 'text/html'
+      });
+      if (window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveBlob(blob, filename);
+      } else {
+        var elem = window.document.createElement('a');
+        elem.href = window.URL.createObjectURL(blob);
+        elem.download = filename;
+        document.body.appendChild(elem);
+        elem.click();
+        document.body.removeChild(elem);
+      }
+    }
+  </script>
+
+
+</body>
+
+</html>
