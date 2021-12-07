@@ -43,11 +43,11 @@
 
     <div id="main">
 
-      <template x-for="item in items">
+      <template x-for="(item, index) in items" :key="index">
 
         <div>
           <template x-if="item.layout == 'header'" id="header" data-fields="icon=icon&amp;title=txt&amp;subtitle=txt&amp;button=txt&amp;link=txt">
-            <section :id="item.id" class="editable text-center" @click="setCur(item)">
+            <section :id="item.id" class="editable text-center" :class="{ 'even': index % 2 === 1, 'odd':  index % 2 == 0 }" @click="setCur(item)">
               <div class="container">
                 <i class="fas fa-bolt fa-big"></i>
                 <h1 x-text="item.title">Bootstrap Builder</h1>
@@ -58,7 +58,7 @@
           </template>
 
           <template x-if="item.layout == 'post'" id="post" data-fields="title=txt&amp;body=rte">
-            <section :id="item.id" class="editable" @click="setCur(item)">
+            <section :id="item.id" class="editable" :class="{ 'even': index % 2 === 1, 'odd':  index % 2 == 0 }" @click="setCur(item)">
               <div class="container">
                 <div class="row">
                   <div class="col-md-2"></div>
@@ -73,7 +73,7 @@
           </template>
 
           <template x-if="item.layout == 'news'" id="news" data-fields="title=txt&amp;body=rte&amp;image=img&amp;youtube_url=vid">
-            <section :id="item.id" class="editable" @click="setCur(item)">
+            <section :id="item.id" class="editable" :class="{ 'even': index % 2 === 1, 'odd':  index % 2 == 0 }" @click="setCur(item)">
               <div class="container">
                 <div class="row">
                   <div class="col-md-6">
@@ -87,7 +87,7 @@
           </template>
 
           <template x-if="item.layout == 'newsleft'" id="newsleft" data-fields="title=txt&amp;body=rte&amp;image=img&amp;youtube_url=vid">
-            <section :id="item.id" class="editable" @click="setCur(item)">
+            <section :id="item.id" class="editable" :class="{ 'even': index % 2 === 1, 'odd':  index % 2 == 0 }" @click="setCur(item)">
               <div class="container">
                 <div class="row">
                   <div class="col-md-6"><img :src="item.image" class="img-fluid"></div>
@@ -102,7 +102,7 @@
 
 
           <template x-if="item.layout == 'features'" id="features" data-fields="title=txt&amp;body=rte&amp;title2=txt&amp;body2=rte">
-            <section :id="item.id" class="editable" @click="setCur(item)">
+            <section :id="item.id" class="editable" :class="{ 'even': index % 2 === 1, 'odd':  index % 2 == 0 }" @click="setCur(item)">
               <div class="container">
                 <div class="row">
                   <div class="col-md-6 text-center">

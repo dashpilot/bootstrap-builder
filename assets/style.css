@@ -49,31 +49,29 @@ section{
   padding-bottom: 100px;
 }
 
-#header:nth-child(odd) h1,
-#header:nth-child(odd) h2,
-#header:nth-child(odd) h3,
-#header:nth-child(odd) p,
-#header:nth-child(odd) .fas{
+.odd h1,
+.odd h2,
+.odd h3,
+.odd p,
+.odd .fas{
   color: var(--fg-color);
 }
 
-#content section:nth-child(even) h1,
-#content section:nth-child(even) h2,
-#content section:nth-child(even) h3,
-#content section:nth-child(even) p,
-#content section:nth-child(even) .fas{
+.even h1,
+.even h2,
+.even h3,
+.even p,
+.even .fas{
   color: var(--fg-color);
 }
 
-#main section:nth-child(even) h1,
-#main section:nth-child(even) h2,
-#main section:nth-child(even) h3,
-#main section:nth-child(even) p,
-#main section:nth-child(even) .fas{
-  color: var(--fg-color);
-}
-
+/*
 section:nth-child(even){
+  background-color: var(--bg-color);
+}
+*/
+
+.odd{
   background-color: var(--bg-color);
 }
 
