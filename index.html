@@ -18,6 +18,7 @@
 
   <script src="https://unpkg.com/alpinejs" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+  <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.13.6/js/lib/beautify-html.js"></script>
 
 </head>
 
@@ -29,13 +30,18 @@
 
     <nav>
       <div class="row">
-        <div class="col-md-4 g-0">
-          <a @click="addItem=true">Add Content</a>
+        <div class="col-md-6 g-0">
 
-          <a @click="enableSortable">Arrange Content</a>
+          <div class="btn-group">
+            <button class="btn btn-outline-light" @click="addItem=true">Add Blocks</button>
+            <button class="btn btn-outline-light" @click="enableSortable">Arrange Blocks</button>
+          </div>
 
         </div>
-        <div class="col-md-8 g-0">
+        <div class="col-md-6 g-0 text-end">
+
+
+          <button class="btn btn-outline-light download-btn" @click="download">Download</button>
 
         </div>
       </div>
@@ -300,7 +306,7 @@
             } else if (type == 'rte') {
               newItem[key] = "Lorem ipsum dolor site amet";
             } else if (type == 'img') {
-              newItem[key] = "img/placeholder.jpg";
+              newItem[key] = "https://bootstrap-builder.vercel.app/img/placeholder.jpg";
             }
 
           }
@@ -317,6 +323,41 @@
           console.log('save called');
           console.log(JSON.stringify(this.items));
           this.curItem = false;
+        },
+        download() {
+
+          let html = '';
+          document.querySelectorAll('section').forEach(function(el) {
+            html += el.outerHTML + `\n\n`;
+          });
+
+          html = html.replaceAll(`:class="{ 'even': index % 2 === 1, 'odd':  index % 2 == 0 }" @click="setCur(item)"`, '');
+
+          let js = `<script src='https://unpkg.com/alpinejs'></`
+          js += `script>`
+
+          let header = `
+          <!DOCTYPE html>
+          <html lang="en">
+
+          <head>
+            <meta charset="utf-8">
+            <title>My Website</title>
+
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;600&family=Lobster&family=Playfair+Display&family=Raleway&family=Cutive+Mono&display=swap" rel="stylesheet">
+
+            <link rel="stylesheet" href="https://bootstrap-builder.vercel.app/assets/style.css">
+
+          </head>
+
+          <body>\n\n`;
+
+          dl('index.html', html_beautify(header + html + '</body></html>'));
+
         },
         choose() {
 

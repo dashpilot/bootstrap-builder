@@ -16,7 +16,7 @@
   "layout": "news",
   "title": "Maecenas tincidunt sem quis rutrum",
   "body": "Mauris in porttitor elit. Aenean elementum eleifend quam, in tristique eros auctor porta. Donec et est in tellus blandit feugiat id nec nunc.",
-  "image": "img/placeholder.jpg"
+  "image": "https://bootstrap-builder.vercel.app/img/placeholder.jpg"
 }, {
   "id": "item-4",
   "layout": "features",
