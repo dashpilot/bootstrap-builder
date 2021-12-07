@@ -65,6 +65,14 @@ section{
   color: var(--fg-color);
 }
 
+#main section:nth-child(even) h1,
+#main section:nth-child(even) h2,
+#main section:nth-child(even) h3,
+#main section:nth-child(even) p,
+#main section:nth-child(even) .fas{
+  color: var(--fg-color);
+}
+
 section:nth-child(even){
   background-color: var(--bg-color);
 }
