@@ -14,9 +14,10 @@ body {
 .editor{
   position: fixed;
   width: 370px;
-  background-color: #F8F8F8;
+  background-color: white;
   height: 100%;
   overflow-y: auto;
+  box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
 }
 
 #wdgt-add, #wdgt-sort, #wdgt-design{
@@ -52,7 +53,7 @@ body {
   padding: 20px;
   padding-top: 15px;
   height: 55px;
-  background-color: white;
+  background-color: #F8F8F8;
 }
 
 .wdgt-header h5{
@@ -62,6 +63,7 @@ body {
 
 .wdgt-body{
   padding: 20px;
+  background-color: white;
 }
 
 nav {
@@ -163,6 +165,15 @@ nav .fas{
 
 .label:first-child{
   margin-top: 0;
+}
+
+a.list-group-item{
+  color: black;
+}
+
+a.list-group-item:hover{
+  background-color: #F8F8F8;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 767px) {

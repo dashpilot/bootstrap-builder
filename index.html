@@ -173,6 +173,18 @@
         <div class="label">background-color</div>
         <input type="color" @input="changeColor($el.value)"><br>
 
+        <div class="label">Font</div>
+
+        <div class="list-group">
+          <a class="list-group-item" @click="setFont('Rubik')"><i class="fas fa-check mr-2" x-show="font == 'Rubik'"></i> Default</a>
+          <a class="list-group-item" @click="setFont('Lobster')"><i class="fas fa-check mr-2" x-show="font == 'Lobster'"></i> Lobster</a>
+          <a class="list-group-item" @click="setFont('Playfair Display')"><i class="fas fa-check mr-2" x-show="font == 'Playfair Display'"></i> Playfair Display</a>
+          <a class="list-group-item" @click="setFont('Raleway')"><i class="fas fa-check mr-2" x-show="font == 'Raleway'"></i> Raleway</a>
+          <a class="list-group-item" @click="setFont('Cutive Mono')"><i class="fas fa-check mr-2" x-show="font == 'Cutive Mono'"></i> Cutive Mono</a>
+          <a class="list-group-item" @click="setFont('Helvetica')"><i class="fas fa-check mr-2" x-show="font == 'Helvetica'"></i> Helvetica</a>
+          <a class="list-group-item" @click="setFont('Georgia')"><i class="fas fa-check mr-2" x-show="font == 'Georgia'"></i> Georgia</a>
+        </div>
+
         <div class="label">reset all changes</div>
         <button class="btn btn-outline-dark" @click="reset">Reset</button><br>
 
@@ -235,6 +247,7 @@
   </div>
 
 
+
   <script>
     function app() {
       return {
@@ -244,6 +257,7 @@
         curFields: false,
         addItem: false,
         editDesign: false,
+        font: 'Rubik',
         blocks: ['header', 'post', 'news', 'newsleft', 'features'],
         fetchItems() {
 
@@ -363,13 +377,18 @@
           localStorage.setItem("data", JSON.stringify(this.items))
           this.curItem = false;
         },
-        changeColor(hex) {
+        setColor(hex) {
           document.documentElement.style.setProperty('--bg-color', hex);
           let contrast = colorContrast(hex);
           document.documentElement.style.setProperty('--fg-color', contrast);
 
           localStorage.setItem("bg-color", hex);
           localStorage.setItem("fg-color", contrast);
+        },
+        setFont(font) {
+          document.documentElement.style.setProperty('--font', font);
+          localStorage.setItem("font", font);
+          this.font = font;
         },
         reset() {
           var r = confirm("Are you sure? This will also reset all your content changes!");
