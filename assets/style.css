@@ -62,7 +62,7 @@ section{
 .even h3,
 .even p,
 .even .fas{
-  color: var(--fg-color);
+  color: black;
 }
 
 /*

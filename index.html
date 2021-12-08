@@ -31,14 +31,15 @@
         <div class="col-md-6 g-0">
 
           <div class="btn-group">
-            <button class="btn btn-outline-light" @click="addItem=true">Add Blocks</button>
-            <button class="btn btn-outline-light" @click="enableSortable">Arrange Blocks</button>
+            <button class="btn btn-outline-light" @click="addItem=true"><i class="fas fa-plus"></i> Add</button>
+            <button class="btn btn-outline-light" @click="enableSortable"><i class="fas fa-sort"></i> Arrange</button>
+            <button class="btn btn-outline-light" @click="editDesign=true"><i class="fas fa-palette"></i> Design</button>
           </div>
 
         </div>
         <div class="col-md-6 g-0 text-end">
 
-          <button class="btn btn-outline-light download-btn" @click="download">Download</button>
+          <button class="btn btn-outline-light download-btn" @click="download"><i class="fas fa-download"></i> Download</button>
 
         </div>
       </div>
@@ -160,6 +161,25 @@
     </div>
 
 
+    <div id="wdgt-design" class="editor" x-show="editDesign" x-transition.opacity>
+
+      <div class="wdgt-header">
+        <button type="button" class="btn-close fl-right" @click="editDesign=false"></button>
+        <h5>Edit Design</h5>
+      </div>
+
+      <div class="wdgt-body">
+
+        <div class="label">background-color</div>
+        <input type="color" @input="changeColor($el.value)"><br>
+
+        <div class="label">reset all changes</div>
+        <button class="btn btn-outline-dark" @click="reset">Reset</button><br>
+
+      </div>
+
+    </div>
+
 
 
     <div id="wdgt-edit" class="editor" x-show="curItem" x-transition.opacity x-transition:leave.duration.0ms>
@@ -179,15 +199,24 @@
             <div>
 
               <template x-if="type == 'txt'">
-                <input type="text" class="form-control" x-model="curItem[key]">
+                <div>
+                  <div class="label" x-text="key"></div>
+                  <input type="text" class="form-control" x-model="curItem[key]">
+                </div>
               </template>
 
               <template x-if="type == 'rte'">
-                <textarea class="form-control" x-model="curItem[key]"></textarea>
+                <div>
+                  <div class="label" x-text="key"></div>
+                  <textarea class="form-control" x-model="curItem[key]"></textarea>
+                </div>
               </template>
 
               <template x-if="type == 'img'">
-                <button class="btn btn-outline-dark" @click="choose">Image</button>
+                <div>
+                  <div class="label" x-text="key"></div>
+                  <button class="btn btn-outline-dark" @click="choose">Image</button>
+                </div>
               </template>
 
             </div>
@@ -214,13 +243,30 @@
         sortItems: false,
         curFields: false,
         addItem: false,
+        editDesign: false,
         blocks: ['header', 'post', 'news', 'newsleft', 'features'],
         fetchItems() {
 
           fetch('data/data.json')
             .then(res => res.json())
             .then(data => {
-              this.items = data;
+
+              // check if data has been stored in localStorage
+              if (localStorage.getItem("data") !== null) {
+                this.items = JSON.parse(localStorage.getItem("data"))
+              } else {
+                this.items = data;
+              }
+
+              if (localStorage.getItem("bg-color") !== null) {
+                document.documentElement.style.setProperty('--bg-color', localStorage.getItem("bg-color"));
+              }
+              if (localStorage.getItem("fg-color") !== null) {
+                document.documentElement.style.setProperty('--fg-color', localStorage.getItem("fg-color"));
+              }
+              if (localStorage.getItem("font") !== null) {
+                document.documentElement.style.setProperty('--font', localStorage.getItem("font"));
+              }
 
             });
         },
@@ -314,7 +360,26 @@
         save() {
           console.log('save called');
           console.log(JSON.stringify(this.items));
+          localStorage.setItem("data", JSON.stringify(this.items))
           this.curItem = false;
+        },
+        changeColor(hex) {
+          document.documentElement.style.setProperty('--bg-color', hex);
+          let contrast = colorContrast(hex);
+          document.documentElement.style.setProperty('--fg-color', contrast);
+
+          localStorage.setItem("bg-color", hex);
+          localStorage.setItem("fg-color", contrast);
+        },
+        reset() {
+          var r = confirm("Are you sure? This will also reset all your content changes!");
+          if (r == true) {
+            localStorage.removeItem('data');
+            localStorage.removeItem('fg-color');
+            localStorage.removeItem('bg-color');
+            localStorage.removeItem('font');
+            location.reload();
+          }
         },
         download() {
 
@@ -327,6 +392,16 @@
 
           let js = `<script src='https://unpkg.com/alpinejs'></`
           js += `script>`
+
+          var css = `<style>`;
+          if (localStorage.getItem("bg-color") !== null) {
+            css += `:root {--bg-color:${localStorage.getItem("bg-color")};--fg-color:${localStorage.getItem("fg-color")};`
+          }
+          if (localStorage.getItem("font") !== null) {
+            css += `--font:${localStorage.getItem("font")};--spacing:${localStorage.getItem("spacing")};`
+          }
+          css += `}
+          </style>`;
 
           let header = `
           <!DOCTYPE html>
@@ -343,6 +418,8 @@
             <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;600&family=Lobster&family=Playfair+Display&family=Raleway&family=Cutive+Mono&display=swap" rel="stylesheet">
 
             <link rel="stylesheet" href="https://bootstrap-builder.vercel.app/assets/style.css">
+
+            ${css}
 
           </head>
 
@@ -407,6 +484,37 @@
 
     function scrollTo(id) {
       document.getElementById(id).scrollIntoView();
+    }
+
+    function colorContrast(hex) {
+
+      var threshold = 150; /* about half of 256. Lower threshold equals more dark text on dark background  */
+      var hRed = hexToR(hex);
+      var hGreen = hexToG(hex);
+      var hBlue = hexToB(hex);
+
+      function hexToR(h) {
+        return parseInt((cutHex(h)).substring(0, 2), 16)
+      }
+
+      function hexToG(h) {
+        return parseInt((cutHex(h)).substring(2, 4), 16)
+      }
+
+      function hexToB(h) {
+        return parseInt((cutHex(h)).substring(4, 6), 16)
+      }
+
+      function cutHex(h) {
+        return (h.charAt(0) == "#") ? h.substring(1, 7) : h
+      }
+
+      var cBrightness = ((hRed * 299) + (hGreen * 587) + (hBlue * 114)) / 1000;
+      if (cBrightness > threshold) {
+        return "#000000";
+      } else {
+        return "#ffffff";
+      }
     }
 
     function dl(filename, data) {

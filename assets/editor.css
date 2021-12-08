@@ -11,7 +11,7 @@ body {
     opacity: 0;
 }
 
-#wdgt-add, #wdgt-edit, #wdgt-sort{
+.editor{
   position: fixed;
   width: 370px;
   background-color: #F8F8F8;
@@ -19,7 +19,7 @@ body {
   overflow-y: auto;
 }
 
-#wdgt-add, #wdgt-sort{
+#wdgt-add, #wdgt-sort, #wdgt-design{
   top: 0;
   left: 0;
   border-right: 1px solid #DDD;
@@ -67,8 +67,8 @@ body {
 nav {
   padding: 8px;
   background-color: #343a40;
-  padding-left: 32px;
-    padding-right: 32px;
+  padding-left: 25px;
+    padding-right: 25px;
   color: white;
   position: fixed;
   width: 100%;
@@ -99,6 +99,9 @@ nav a:hover{
   text-decoration: underline;
 }
 
+nav .fas{
+  margin-right: 5px;
+}
 
 #cfg {
   padding: 30px;
@@ -149,6 +152,18 @@ nav a:hover{
   width: 75px;
 }
 
+.label{
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 14px;
+  margin-bottom: 5px;
+  margin-top: 20px;
+  color: #212529;
+}
+
+.label:first-child{
+  margin-top: 0;
+}
 
 @media only screen and (max-width: 767px) {
   nav h2 {
