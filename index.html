@@ -39,7 +39,7 @@
         </div>
         <div class="col-md-6 g-0 text-end">
 
-          <button class="btn btn-outline-light download-btn" @click="download"><i class="fas fa-download"></i> Download</button>
+          <button class="btn btn-outline-light download-btn" @click="showDownload=true"><i class="fas fa-download"></i> Download</button>
 
         </div>
       </div>
@@ -192,7 +192,18 @@
 
     </div>
 
+    <div id="wdgt-download" class="editor" x-show="showDownload" x-transition.opacity>
 
+      <div class="wdgt-header">
+        <button type="button" class="btn-close fl-right" @click="showDownload=false"></button>
+        <h5>Download your design</h5>
+      </div>
+
+      <div class="wdgt-body">
+        <button class="btn btn-outline-dark" @click="download">Download</button>
+      </div>
+
+    </div>
 
     <div id="wdgt-edit" class="editor" x-show="curItem" x-transition.opacity x-transition:leave.duration.0ms>
 
@@ -257,6 +268,7 @@
         curFields: false,
         addItem: false,
         editDesign: false,
+        showDownload: false,
         font: 'Rubik',
         blocks: ['header', 'post', 'news', 'newsleft', 'features'],
         fetchItems() {
